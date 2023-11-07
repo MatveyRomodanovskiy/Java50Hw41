@@ -1,15 +1,17 @@
 package telran.threads.tasks;
 
-import java.time.Instant;
+
 import java.util.*;
 
-public class Racer extends Thread implements Comparable<Racer> {
+import telran.threads.controller.Race;
+
+public class Racer extends Thread  {
 	private String nameThread;
 	private int distance;
 	static int minSleepTime = 2;
 	static int maxSleepTime = 4;
 	static Random random = new Random();
-	Instant finishTime;
+	long timeResult;
 	
 	public Racer(String name, int distance) {
 		this.nameThread = name;
@@ -18,10 +20,17 @@ public class Racer extends Thread implements Comparable<Racer> {
 	}
 
 	/**
-	 * @return the timeStamp
+	 * @return the time
 	 */
-	public Instant getFinishTime() {
-		return finishTime;
+	public long getTime() {
+		return timeResult;
+	}
+
+	/**
+	 * @param l the timeResult to set
+	 */
+	public void setTimeResult(long l) {
+		this.timeResult = l;
 	}
 
 	@Override
@@ -37,8 +46,8 @@ public class Racer extends Thread implements Comparable<Racer> {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}	
-		this.finishTime = Instant.now();
+		}
+				Race.addPrizePlace(this);
 	}
 
 
@@ -49,10 +58,6 @@ public class Racer extends Thread implements Comparable<Racer> {
 		return nameThread;
 	}
 
-	@Override
-	public int compareTo(Racer o) {	
-		return this.finishTime.compareTo(o.finishTime);
-	}
 
 	
 

@@ -1,15 +1,22 @@
 package telran.threads.controller;
 
-import java.util.Arrays;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import telran.threads.tasks.Racer;
 
 public class Race {
+	public static Instant startTime;
 	Racer[] racers;
 	int distance;
-	Racer[] prizePlaces;
+	public static ArrayList <Racer> prizePlaces;
+	
+	
 	public Race (int numberOfRacers, int distance) {
 		this.racers = new Racer[numberOfRacers];
+		prizePlaces = new ArrayList<>();
 		for (int i = 0; i < numberOfRacers; i++) {
 			racers[i] = new Racer("thread #" + (i + 1), distance);	
 		}
@@ -23,11 +30,18 @@ public class Race {
 	}
 	
 	/**
+	 * @add the prizePlaces
+	 */
+	synchronized public static void addPrizePlace(Racer racer) {
+		prizePlaces.add(racer);
+		racer.setTimeResult( ChronoUnit.MILLIS.between(Race.startTime, Instant.now()));
+	}
+	
+	/**
 	 * @return the prizePlaces
 	 */
-	public Racer[] getPrizePlaces() {
-		 Arrays.sort(racers);
-		 return racers;
+	public ArrayList<Racer> getPrizePlaces() {
+		 return prizePlaces;
 	}
 	
 }

@@ -1,7 +1,8 @@
 package telran.threads.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.time.Instant;
+
 
 import telran.threads.tasks.Racer;
 import telran.view.InputOutput;
@@ -29,7 +30,7 @@ public class ThreadsRaceAppl {
 	static void start(InputOutput io) {
 		int[] operands = getOperands(io);
 		Race race = new Race(operands[0], operands[1]);
-		
+		Race.startTime =  Instant.now();
 		for (int i = 0; i < race.getRacers().length; i++) {
 			race.getRacers()[i].start();
 		}
@@ -43,10 +44,11 @@ public class ThreadsRaceAppl {
 			}
 		}
 		io.writeObjectLine("******************");
-		io.writeObjectLine("Congratulations to " + race.getPrizePlaces()[0].getThreadName() + ", the winner of the race\n**********************");
+//		io.writeObjectLine("Congratulations to " + race.getPrizePlaces()[0].getThreadName() + ", the winner of the race\n**********************");
 		io.writeObjectLine("List of winners");
-		for(Racer racer :race.getPrizePlaces()) {
-			io.writeObjectLine(racer.getThreadName());
+		int i=0;
+		for(Racer racer :Race.prizePlaces) {
+			io.writeObjectLine("Place #: " + ++i + " Thread name: " + racer.getThreadName() + " result time: " + racer.getTime() + " mills");
 		}
 		
 	}
