@@ -4,6 +4,7 @@ package telran.threads.controller;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import telran.threads.tasks.Racer;
 
@@ -25,8 +26,8 @@ public class Race {
 	/**
 	 * @return the racers
 	 */
-	public Racer[] getRacers() {
-		return racers;
+	public Racer[] getRacers() {	
+		return Arrays.copyOf(racers, racers.length);
 	}
 	
 	/**
@@ -41,7 +42,7 @@ public class Race {
 	 * @return the prizePlaces
 	 */
 	public ArrayList<Racer> getPrizePlaces() {
-		 return prizePlaces;
+		 return new ArrayList<>(prizePlaces);
 	}
 	
 }
