@@ -1,10 +1,8 @@
 package telran.threads.controller;
 
 import java.io.IOException;
-import java.time.Instant;
 
 
-import telran.threads.tasks.Racer;
 import telran.view.InputOutput;
 import telran.view.Item;
 import telran.view.Menu;
@@ -30,7 +28,7 @@ public class ThreadsRaceAppl {
 	static void start(InputOutput io) {
 		int[] operands = getOperands(io);
 		Race race = new Race(operands[0], operands[1]);
-		Race.startTime =  Instant.now();
+//		Race.winner.set(-1);
 		for (int i = 0; i < race.getRacers().length; i++) {
 			race.getRacers()[i].start();
 		}
@@ -44,12 +42,12 @@ public class ThreadsRaceAppl {
 			}
 		}
 		io.writeObjectLine("******************");
-//		io.writeObjectLine("Congratulations to " + race.getPrizePlaces()[0].getThreadName() + ", the winner of the race\n**********************");
-		io.writeObjectLine("List of winners");
-		int i=0;
-		for(Racer racer :Race.prizePlaces) {
-			io.writeObjectLine("Place #: " + ++i + " Thread name: " + racer.getThreadName() + " result time: " + racer.getTime() + " mills");
-		}
+		io.writeObjectLine("Congratulations to thread# " + race.getWinner() + ", the winner of the race\n**********************");
+//		io.writeObjectLine("List of winners");
+//		int i=0;
+//		for(Racer racer :Race.prizePlaces) {
+//			io.writeObjectLine("Place #: " + ++i + " Thread name: " + racer.getThreadName() + " result time: " + racer.getTime() + " mills");
+//		}
 		
 	}
 	private static int[] getOperands(InputOutput io) {

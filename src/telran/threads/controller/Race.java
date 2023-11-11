@@ -1,48 +1,35 @@
 package telran.threads.controller;
 
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import telran.threads.tasks.Racer;
 
 public class Race {
-	public static Instant startTime;
 	Racer[] racers;
 	int distance;
-	public static ArrayList <Racer> prizePlaces;
-	
+	public static AtomicInteger winner = new AtomicInteger();
 	
 	public Race (int numberOfRacers, int distance) {
 		this.racers = new Racer[numberOfRacers];
-		prizePlaces = new ArrayList<>();
 		for (int i = 0; i < numberOfRacers; i++) {
-			racers[i] = new Racer("thread #" + (i + 1), distance);	
+			racers[i] = new Racer(i + 1, distance);	
 		}
-	
+		winner.set(-1);
 	}
 	/**
 	 * @return the racers
 	 */
 	public Racer[] getRacers() {	
-		return Arrays.copyOf(racers, racers.length);
+		return racers;
 	}
 	
-	/**
-	 * @add the prizePlaces
-	 */
-	synchronized public static void addPrizePlace(Racer racer) {
-		prizePlaces.add(racer);
-		racer.setTimeResult( ChronoUnit.MILLIS.between(Race.startTime, Instant.now()));
+	public static void setWinner(int name) {
+		winner.compareAndExchange(-1, name);
 	}
 	
-	/**
-	 * @return the prizePlaces
-	 */
-	public ArrayList<Racer> getPrizePlaces() {
-		 return new ArrayList<>(prizePlaces);
+	public int getWinner() {
+		return winner.get();
 	}
 	
 }

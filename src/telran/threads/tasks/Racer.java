@@ -3,20 +3,22 @@ package telran.threads.tasks;
 
 import java.util.*;
 
+
 import telran.threads.controller.Race;
 
 public class Racer extends Thread  {
-	private String nameThread;
+	private int nameThread;
 	private int distance;
 	static int minSleepTime = 2;
 	static int maxSleepTime = 4;
 	static Random random = new Random();
 	long timeResult;
 	
-	public Racer(String name, int distance) {
+	
+	public Racer(int name, int distance) {
 		this.nameThread = name;
 		this.distance = distance;
-		
+
 	}
 
 	/**
@@ -37,7 +39,7 @@ public class Racer extends Thread  {
 	public void run() {
 		System.out.println(nameThread + " start...");
 		for (int i = 0; i < distance; i++) {
-			if (i<distance-1) {
+			if (i<distance) {
 				System.out.println(nameThread + ", finished " + (i + 1) + " loop ");
 			}
 			try {
@@ -47,18 +49,18 @@ public class Racer extends Thread  {
 				e.printStackTrace();
 			}
 		}
-				Race.addPrizePlace(this);
+				Race.setWinner(nameThread);
 	}
 
 
 	/**
 	 * @return the name
 	 */
-	public String getThreadName() {
+	public int getThreadName() {
 		return nameThread;
 	}
 
-
+	
 	
 
 }
