@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import telran.threads.tasks.Racer;
 
 public class Race {
+	private static final int START_VALUE = -1;
 	Racer[] racers;
 	int distance;
 	public static AtomicInteger winner = new AtomicInteger();
@@ -25,7 +26,7 @@ public class Race {
 	}
 	
 	public static void setWinner(int name) {
-		winner.compareAndExchange(-1, name);
+		winner.compareAndSet(START_VALUE, name);
 	}
 	
 	public int getWinner() {
